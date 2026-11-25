@@ -46,6 +46,11 @@ button:focus-visible,.go:focus-visible{outline:3px solid #fff;outline-offset:2px
 <p class="terms" id="terms" hidden></p>
 </main>
 <script>
+// Contagem anônima (GoatCounter, sem cookies). Para o formato ?c=slug conta como /slug.
+window.goatcounter = { path: p => { const c = new URLSearchParams(location.search).get("c"); return c ? "/" + c : p; } };
+</script>
+<script data-goatcounter="https://pablomartins-dafiti.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
 // __BASE__ é substituído no deploy (caminho do site, ex.: "/meu-repo" ou "").
 const RAW = "__BASE__";
 const BASE = RAW.startsWith("__") ? "" : RAW;
@@ -70,6 +75,17 @@ async function copy(text) {
     const ok = document.execCommand("copy"); t.remove();
     if (!ok) throw new Error("falhou");
   }
+}
+
+// O count.js é assíncrono: espera até ~1,2 s (menos que o redirecionamento) e desiste em silêncio se estiver bloqueado.
+function track(ev) {
+  const send = () => { try { window.goatcounter.count(ev); } catch {} };
+  if (typeof window.goatcounter?.count === "function") return send();
+  let n = 0;
+  const t = setInterval(() => {
+    if (typeof window.goatcounter?.count === "function") { clearInterval(t); send(); }
+    else if (++n >= 12) clearInterval(t);
+  }, 100);
 }
 
 // Só segue destinos http(s); qualquer outra coisa (javascript:, data:) é ignorada.
@@ -101,7 +117,7 @@ function safeUrl(u) {
     $("trust").hidden = false;
     $("trust").replaceChildren(
       "Você será levado para ", Object.assign(document.createElement("b"), { textContent: dest.hostname }),
-      ". Esta página só copia o cupom: não pedimos dados, login nem pagamento."
+      ". Esta página só copia o cupom: não pedimos dados, login nem pagamento. Contamos visitas de forma anônima, sem cookies."
     );
   }
   if (expired) show("warn", "Atenção: esta promoção pode ter encerrado. Confira as condições na loja.");
@@ -110,6 +126,8 @@ function safeUrl(u) {
   async function run() {
     try {
       await copy(coupon); done = true;
+      // Evento "cupom copiado" por link; ignorado se o contador estiver bloqueado.
+      track({ event: true, path: "copiado/" + slug, title: "Cupom copiado" });
       $("lbl").textContent = "Cupom copiado!"; $("btn").className = "ok";
       $("ico").replaceChildren(Object.assign(document.createElementNS("http://www.w3.org/2000/svg", "path"), { }));
       $("ico").firstChild.setAttribute("d", "M20 6 9 17l-5-5");

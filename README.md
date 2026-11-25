@@ -20,3 +20,7 @@ Links curtos que, ao abrir, copiam um cupom para a área de transferência e (op
 - Sem contagem de cliques; os cupons ficam públicos no `links.json`.
 - O caminho `/slug` funciona porque o Pages serve o `404.html` (mesma página) para caminhos inexistentes, com status 404. Alternativa sem isso: `/?c=slug`.
 - Domínio próprio funciona: o caminho base é detectado no deploy.
+
+## Contagem de acessos
+
+A página usa o GoatCounter (sem cookies): https://pablomartins-dafiti.goatcounter.com/. Cada slug aparece como um caminho (`/dafiti-tiktok-1-feminino`) e cada cupom copiado como evento `copiado/<slug>`. Se o contador for bloqueado pelo navegador, a página funciona normalmente, só não conta.
