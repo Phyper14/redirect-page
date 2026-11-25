@@ -11,7 +11,7 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 |---|---|---|---|---|
 | Sem anúncio específico | `dafiti` | `pablomartins` | https://phyper14.github.io/redirect-page/dafiti | `/promocao/geral/black-tudo-desconto` |
 | TikTok 1, feminino | `dafiti-tiktok-1-feminino` | `PABLOMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-feminino | `/promocao/feminino/black-tudo-desconto` |
-| TikTok 2, feminino | `dafiti-tiktok-2-feminino` | `pabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-2-feminino | `/promocao/geral/black-tudo-desconto` |
+| TikTok 2, feminino | `dafiti-tiktok-2-feminino` | `pabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-2-feminino | `/promocao/feminino/black-tudo-desconto` |
 | TikTok 1, masculino | `dafiti-tiktok-1-masculino` | `PabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-masculino | `/promocao/geral/black-tudo-desconto` |
 
 ## Regras para novas variantes
