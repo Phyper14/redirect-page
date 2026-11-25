@@ -70,4 +70,5 @@ jobs:
 
       - name: Link curto criado
         if: ${{ inputs.coupon != '' }}
-        run: echo "### Link: ${{ steps.pages.outputs.base_url }}/${{ steps.add.outputs.slug }}" >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          echo "### Link: ${{ steps.pages.outputs.base_url }}/${{ steps.add.outputs.slug }}" >> "$GITHUB_STEP_SUMMARY"
