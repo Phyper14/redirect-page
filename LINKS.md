@@ -5,15 +5,14 @@ maiúsculas de minúsculas). Assim o dashboard mostra de qual anúncio veio cada
 A fonte dos dados é `site/links.json`; esta tabela é o registro para consulta e deve ser
 atualizada junto com ele.
 
-Base: `https://phyper14.github.io/redirect-page/`
-Destino de todos: `https://www.dafiti.com.br/promocao/geral/black-tudo-desconto`
+Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em `https://www.dafiti.com.br`.
 
-| Anúncio | Slug | Cupom (grafia exata) | Link curto |
-|---|---|---|---|
-| Sem anúncio específico | `dafiti` | `pablomartins` | https://phyper14.github.io/redirect-page/dafiti |
-| TikTok 1, feminino | `dafiti-tiktok-1-feminino` | `PABLOMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-feminino |
-| TikTok 2, feminino | `dafiti-tiktok-2-feminino` | `pabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-2-feminino |
-| TikTok 1, masculino | `dafiti-tiktok-1-masculino` | `PabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-masculino |
+| Anúncio | Slug | Cupom (grafia exata) | Link curto | Destino |
+|---|---|---|---|---|
+| Sem anúncio específico | `dafiti` | `pablomartins` | https://phyper14.github.io/redirect-page/dafiti | `/promocao/geral/black-tudo-desconto` |
+| TikTok 1, feminino | `dafiti-tiktok-1-feminino` | `PABLOMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-feminino | `/promocao/feminino/black-tudo-desconto` |
+| TikTok 2, feminino | `dafiti-tiktok-2-feminino` | `pabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-2-feminino | `/promocao/feminino/black-tudo-desconto` |
+| TikTok 1, masculino | `dafiti-tiktok-1-masculino` | `PabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-masculino | `/promocao/geral/black-tudo-desconto` |
 
 ## Regras para novas variantes
 
