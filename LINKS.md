@@ -16,6 +16,10 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 | Instagram stories 1 | `dafiti-instagram-1-stories` | `PABLOmartins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-stories | `/promocao/geral/black-tudo-desconto` |
 | TikTok, Adi2000 | `dafiti-tiktok-1-adi2000` | `pabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000 | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
 | Instagram, Adi2000 | `dafiti-instagram-1-adi2000` | `PABLOMartins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000 | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
+| TikTok, Adi2000 branco | `dafiti-tiktok-1-adi2000-branco` | `pablomartinS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-branco | `/ADI2000-adidas-Originals-Branco-15012022.html` |
+| Instagram, Adi2000 branco | `dafiti-instagram-1-adi2000-branco` | `PABLOMARTINs` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-branco | `/ADI2000-adidas-Originals-Branco-15012022.html` |
+| TikTok, Adi2000 azul | `dafiti-tiktok-1-adi2000-azul` | `pablOmartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-azul | `/Tenis-Unissex-adidas-Originals-Adi2000-Azul-14998149.html` |
+| Instagram, Adi2000 azul | `dafiti-instagram-1-adi2000-azul` | `PABLOmARTINS` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-azul | `/Tenis-Unissex-adidas-Originals-Adi2000-Azul-14998149.html` |
 | TikTok, Adizero Evo SL | `dafiti-tiktok-1-adizero` | `pablomARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
 | Instagram, Adizero Evo SL | `dafiti-instagram-1-adizero` | `PabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
 
@@ -23,7 +27,7 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 
 - Cada grafia do cupom deve ser usada em **um único anúncio**; repetir mistura as vendas.
 - Escolha grafias bem distintas entre si, para reconhecê-las no dashboard.
-- Slug no formato `loja-plataforma-numero-publico`, com letras, números, `-` ou `_` (3 a 32 caracteres).
+- Slug no formato `loja-plataforma-numero-publico`, com letras, números, `-` ou `_` (3 a 40 caracteres).
 - A atribuição vale só para quem copia pelo botão: quem digita o cupom à mão usa a própria grafia.
 
 ## Oferta (Dafiti, Black Absurda)
