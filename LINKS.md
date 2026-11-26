@@ -14,12 +14,14 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 | TikTok 2, feminino | `dafiti-tiktok-2-feminino` | `pabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-2-feminino | `/promocao/feminino/black-tudo-desconto` |
 | TikTok 1, masculino | `dafiti-tiktok-1-masculino` | `PabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-masculino | `/promocao/geral/black-tudo-desconto` |
 | Instagram stories 1 | `dafiti-instagram-1-stories` | `PABLOmartins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-stories | `/promocao/geral/black-tudo-desconto` |
-| TikTok, Adi2000 | `dafiti-tiktok-1-adi2000` | `pabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000 | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
-| Instagram, Adi2000 | `dafiti-instagram-1-adi2000` | `PABLOMartins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000 | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
+| TikTok, Adi2000 marrom | `dafiti-tiktok-1-adi2000-marrom` | `pabloMartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-marrom | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
+| Instagram, Adi2000 marrom | `dafiti-instagram-1-adi2000-marrom` | `PABLOMartins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-marrom | `/Tenis-Masculino-adidas-Originals-Adi2000-Marrom-14998148.html` |
 | TikTok, Adi2000 branco | `dafiti-tiktok-1-adi2000-branco` | `pablomartinS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-branco | `/ADI2000-adidas-Originals-Branco-15012022.html` |
 | Instagram, Adi2000 branco | `dafiti-instagram-1-adi2000-branco` | `PABLOMARTINs` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-branco | `/ADI2000-adidas-Originals-Branco-15012022.html` |
 | TikTok, Adi2000 azul | `dafiti-tiktok-1-adi2000-azul` | `pablOmartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-azul | `/Tenis-Unissex-adidas-Originals-Adi2000-Azul-14998149.html` |
 | Instagram, Adi2000 azul | `dafiti-instagram-1-adi2000-azul` | `PABLOmARTINS` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-azul | `/Tenis-Unissex-adidas-Originals-Adi2000-Azul-14998149.html` |
+| TikTok, Adi2000 (filtro) | `dafiti-tiktok-1-adi2000-filtro` | `Pablomartins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adi2000-filtro | `/adidas-originals/?seller=Dafiti&q=adi2000` |
+| Instagram, Adi2000 (filtro) | `dafiti-instagram-1-adi2000-filtro` | `PABLOMArtins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-filtro | `/adidas-originals/?seller=Dafiti&q=adi2000` |
 | TikTok, Adizero Evo SL | `dafiti-tiktok-1-adizero` | `pablomARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
 | Instagram, Adizero Evo SL | `dafiti-instagram-1-adizero` | `PabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
 
