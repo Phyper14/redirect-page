@@ -14,14 +14,12 @@ h1{margin:0;font-size:22px;line-height:1.25}
 .discount{margin:18px 0 4px;font-size:56px;font-weight:800;line-height:1;background:linear-gradient(90deg,var(--red),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{margin:0;color:var(--muted);font-size:14px}
 .code{margin:20px 0 14px;font:700 26px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;border:2px dashed var(--orange);border-radius:12px;padding:14px 10px;word-break:break-all;user-select:all}
-button,.go{display:block;width:100%;padding:15px;font-size:17px;font-weight:700;border:0;border-radius:12px;color:#fff;cursor:pointer;text-decoration:none;font-family:inherit}
+button{display:block;width:100%;padding:15px;font-size:17px;font-weight:700;border:0;border-radius:12px;color:#fff;cursor:pointer;text-decoration:none;font-family:inherit}
 button{background:var(--orange);color:#0a0a0a;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;transition:background-color .2s,transform .1s}
 button:hover{background:#ff7a2e}button:active{transform:scale(.98)}
 svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 button.ok{background:var(--ok);color:#04210f}
-button:focus-visible,.go:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.go{margin-top:10px;background:transparent;border:1px solid #404040;font-weight:600;font-size:15px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background-color .2s}
-.go:hover{background:#1f1f1f}
+button:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .status{min-height:20px;margin:12px 0 0;font-size:14px;color:var(--muted)}
 .trust{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.5}
 .trust b{color:var(--text)}
@@ -40,7 +38,6 @@ button:focus-visible,.go:focus-visible{outline:3px solid #fff;outline-offset:2px
 <div class="code" id="code" hidden></div>
 <div class="warn" id="warn" hidden></div>
 <button id="btn" type="button" hidden><svg id="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="lbl">Copiar cupom</span></button>
-<a class="go" id="go" hidden rel="noopener noreferrer"><span id="goLbl">Abrir a loja</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
 <p class="status" id="msg" role="status" aria-live="polite"></p>
 <div class="trust" id="trust" hidden></div>
 <p class="terms" id="terms" hidden></p>
@@ -114,7 +111,6 @@ function safeUrl(u) {
   show("code", coupon); $("btn").hidden = false;
   show("terms", terms);
   if (dest) {
-    $("go").href = dest.href; $("go").hidden = false;
     $("trust").hidden = false;
     $("trust").replaceChildren(
       "Você será levado para ", Object.assign(document.createElement("b"), { textContent: dest.hostname }),
@@ -125,11 +121,12 @@ function safeUrl(u) {
 
   const goes = dest && !expired;
   $("lbl").textContent = goes ? "Copiar cupom e ir para a loja" : "Copiar cupom";
-  if (dest) $("goLbl").textContent = "Abrir a loja sem copiar";
 
   // A cópia só acontece no toque: o navegador não pede permissão e funciona em apps com navegador interno.
-  let busy = false;
+  // Só se a cópia falhar o botão passa a ir direto à loja, para ninguém ficar sem saída.
+  let busy = false, failed = false;
   $("btn").onclick = async () => {
+    if (failed) return location.assign(dest.href);
     if (busy) return;
     busy = true;
     // Funil por link: toque -> copiado (ou falha). Mostra se as pessoas nem tocam ou se a cópia falha.
@@ -148,7 +145,8 @@ function safeUrl(u) {
     } catch {
       busy = false;
       track({ event: true, path: "falha/" + slug, title: "Falha ao copiar" });
-      $("msg").textContent = "Não foi possível copiar. Toque no cupom acima, copie e depois abra a loja.";
+      if (goes) { failed = true; $("lbl").textContent = "Ir para a loja"; }
+      $("msg").textContent = goes ? "Não foi possível copiar. Toque no cupom acima para copiar e depois em \"Ir para a loja\"." : "Não foi possível copiar. Toque no cupom acima e copie.";
     }
   };
 })();
