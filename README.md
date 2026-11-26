@@ -1,6 +1,6 @@
 # Encurtador de cupons (GitHub Pages)
 
-Links curtos que, ao abrir, copiam um cupom para a área de transferência e (opcionalmente) redirecionam para a loja. 100% estático, grátis em repositório público.
+Links curtos que abrem uma página de cupom: ao tocar no botão, o cupom é copiado para a área de transferência e a pessoa é levada para a loja (opcional). A cópia só acontece no toque, sem permissão do navegador. 100% estático, grátis em repositório público.
 
 `https://<usuario>.github.io/<repo>/promo10` → copia `PROMO10` → abre a loja.
 

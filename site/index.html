@@ -40,7 +40,7 @@ button:focus-visible,.go:focus-visible{outline:3px solid #fff;outline-offset:2px
 <div class="code" id="code" hidden></div>
 <div class="warn" id="warn" hidden></div>
 <button id="btn" type="button" hidden><svg id="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="lbl">Copiar cupom</span></button>
-<a class="go" id="go" hidden rel="noopener noreferrer"><span>Ir para a loja agora</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+<a class="go" id="go" hidden rel="noopener noreferrer"><span id="goLbl">Abrir a loja</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
 <p class="status" id="msg" role="status" aria-live="polite"></p>
 <div class="trust" id="trust" hidden></div>
 <p class="terms" id="terms" hidden></p>
@@ -122,20 +122,30 @@ function safeUrl(u) {
   }
   if (expired) show("warn", "Atenção: esta promoção pode ter encerrado. Confira as condições na loja.");
 
-  let done = false;
-  async function run() {
+  const goes = dest && !expired;
+  $("lbl").textContent = goes ? "Copiar cupom e ir para a loja" : "Copiar cupom";
+  if (dest) $("goLbl").textContent = "Abrir a loja sem copiar";
+
+  // A cópia só acontece no toque: o navegador não pede permissão e funciona em apps com navegador interno.
+  let busy = false;
+  $("btn").onclick = async () => {
+    if (busy) return;
+    busy = true;
     try {
-      await copy(coupon); done = true;
+      await copy(coupon);
       // Evento "cupom copiado" por link; ignorado se o contador estiver bloqueado.
       track({ event: true, path: "copiado/" + slug, title: "Cupom copiado" });
       $("lbl").textContent = "Cupom copiado!"; $("btn").className = "ok";
-      $("ico").replaceChildren(Object.assign(document.createElementNS("http://www.w3.org/2000/svg", "path"), { }));
-      $("ico").firstChild.setAttribute("d", "M20 6 9 17l-5-5");
-      $("msg").textContent = dest && !expired ? `Abrindo ${dest.hostname}…` : "Cole o cupom no checkout.";
-      if (dest && !expired) setTimeout(() => location.assign(dest.href), 1500);
-    } catch { $("msg").textContent = "Toque em “Copiar cupom” para copiar."; }
-  }
-  $("btn").onclick = run;
-  run(); // tenta copiar sozinho; alguns navegadores exigem o toque
+      const check = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      check.setAttribute("d", "M20 6 9 17l-5-5");
+      $("ico").replaceChildren(check);
+      $("msg").textContent = goes ? `Abrindo ${dest.hostname}…` : "Cole o cupom no checkout.";
+      // ~1,2 s: tempo de o evento sair antes de trocar de página.
+      if (goes) setTimeout(() => location.assign(dest.href), 1200);
+    } catch {
+      busy = false;
+      $("msg").textContent = "Não foi possível copiar. Toque no cupom acima, copie e depois abra a loja.";
+    }
+  };
 })();
 </script></body></html>
