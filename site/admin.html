@@ -1,0 +1,222 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel de links</title>
+<style>
+:root{--red:#e11d12;--orange:#f2681c;--bg:#0a0a0a;--card:#141414;--line:#2a2a2a;--text:#f5f5f5;--muted:#b3b3b3;--ok:#22c55e;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;padding:16px;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg)}
+main{max-width:1100px;margin:0 auto}
+h1{margin:0 0 4px;font-size:22px}h2{margin:28px 0 10px;font-size:17px}
+.muted{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select,textarea{background:#0f0f0f;border:1px solid #3a3a3a;border-radius:8px;color:var(--text);padding:9px 10px;font:inherit;min-width:0}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--orange);outline-offset:1px}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 12px}
+.full{grid-column:1/-1}
+button{background:var(--orange);color:#0a0a0a;border:0;border-radius:8px;padding:9px 14px;font:600 14px inherit;cursor:pointer;min-height:38px}
+button:hover{background:#ff7a2e}button:disabled{opacity:.5;cursor:default}
+button.ghost{background:transparent;color:var(--text);border:1px solid #404040}
+button.ghost:hover{background:#1f1f1f}
+button.danger{background:transparent;color:var(--bad);border:1px solid #5b2323}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;vertical-align:middle}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+code{font:13px ui-monospace,Menlo,monospace}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;background:#1f1f1f;border:1px solid #333;font-size:12px}
+#msg{min-height:22px;margin-top:10px;font-size:14px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.actions{display:flex;gap:6px}.actions button{padding:5px 10px;min-height:30px;font-size:13px}
+[hidden]{display:none!important}
+</style></head><body><main>
+<h1>Painel de links</h1>
+<p class="muted">Edita o <code>links.json</code> do repositório pelo GitHub. Cada salvamento vira um commit e o site é republicado em ~1 min.</p>
+
+<section class="card" id="login">
+  <label for="tok">Token do GitHub (fine-grained, só este repositório, permissão Contents: leitura e escrita)</label>
+  <div class="row"><input id="tok" type="password" autocomplete="off" style="flex:1;min-width:240px" placeholder="github_pat_...">
+  <button id="enter" type="button">Entrar</button></div>
+  <p class="muted">O token fica só neste navegador (localStorage) e só é enviado para api.github.com.</p>
+</section>
+
+<div id="app" hidden>
+  <div class="row" style="justify-content:space-between;margin-top:14px">
+    <span class="muted" id="statsInfo"></span>
+    <span class="row"><button class="ghost" id="newBtn" type="button">Novo link</button><button class="ghost" id="logout" type="button">Sair</button></span>
+  </div>
+  <div id="msg" role="status" aria-live="polite"></div>
+
+  <section class="card" id="formCard" hidden>
+    <h2 style="margin-top:0" id="formTitle">Novo link</h2>
+    <form id="form" autocomplete="off">
+      <div class="grid">
+        <div><label for="f-slug">Slug (3–40: letras, números, - _)</label><input id="f-slug" required maxlength="40" pattern="[A-Za-z0-9_\-]{3,40}" style="width:100%"></div>
+        <div><label for="f-coupon">Cupom (grafia exata)</label><input id="f-coupon" required maxlength="100" style="width:100%"></div>
+        <div class="full"><label for="f-url">Destino (http/https)</label><input id="f-url" type="url" style="width:100%"></div>
+        <div><label for="f-title">Título</label><input id="f-title" style="width:100%"></div>
+        <div><label for="f-discount">Desconto</label><input id="f-discount" style="width:100%"></div>
+        <div><label for="f-store">Loja</label><input id="f-store" style="width:100%"></div>
+        <div><label for="f-by">Por</label><input id="f-by" style="width:100%"></div>
+        <div><label for="f-expires">Validade</label><input id="f-expires" type="date" style="width:100%"></div>
+        <div class="full"><label for="f-terms">Condições</label><textarea id="f-terms" rows="3" style="width:100%"></textarea></div>
+      </div>
+      <div class="row" style="margin-top:14px"><button type="submit" id="save">Salvar</button><button type="button" class="ghost" id="cancel">Cancelar</button></div>
+    </form>
+  </section>
+
+  <h2>Links <span class="muted" id="rangeInfo"></span></h2>
+  <div class="card tablewrap"><table>
+    <thead><tr><th>Slug</th><th>Cupom</th><th>Destino</th><th class="n">Visitas</th><th class="n">Toques</th><th class="n">Cópias</th><th class="n">Falhas</th><th class="n">Cópia/visita</th><th></th></tr></thead>
+    <tbody id="links"></tbody>
+  </table></div>
+
+  <h2>Lançamentos</h2>
+  <div class="card">
+    <form class="row" id="launchForm">
+      <select id="l-slug" aria-label="Link lançado" required></select>
+      <input id="l-at" type="datetime-local" aria-label="Data e hora (Brasília)" required>
+      <input id="l-note" placeholder="Plataforma / observação" aria-label="Observação" style="flex:1;min-width:160px">
+      <button type="submit">Registrar lançamento</button>
+    </form>
+    <p class="muted">Horário de Brasília. A contagem "desde o lançamento" começa na hora cheia do lançamento (o GoatCounter agrupa por hora).</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Quando (BRT)</th><th>Slug</th><th>Obs.</th><th class="n">Visitas</th><th class="n">Toques</th><th class="n">Cópias</th><th class="n">Falhas</th><th></th></tr></thead>
+      <tbody id="launches"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<script>
+const REPO = "Phyper14/redirect-page", BRANCH = "main", TZ = "America/Sao_Paulo";
+const API = "https://api.github.com/repos/" + REPO + "/contents/";
+const SITE = location.origin + location.pathname.replace(/\/admin(\.html)?$/, "").replace(/\/$/, "");
+const RESERVED = ["index", "links", "404", "admin", "stats", "launches"];
+const $ = id => document.getElementById(id);
+let links = {}, launches = [], stats = null, editing = null;
+
+// Todo texto vindo de dados entra por textContent, nunca por innerHTML.
+function h(tag, props = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) k === "class" ? (e.className = v) : k.startsWith("on") ? e.addEventListener(k.slice(2), v) : e.setAttribute(k, v);
+  for (const c of kids) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+const say = (t, bad) => { $("msg").textContent = t; $("msg").className = bad ? "bad" : "ok"; };
+const token = () => { try { return localStorage.getItem("gh_token") || ""; } catch { return ""; } };
+
+const b64dec = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const b64enc = s => { let b = ""; new TextEncoder().encode(s).forEach(c => b += String.fromCharCode(c)); return btoa(b); };
+
+async function gh(path, init = {}) {
+  const r = await fetch(API + path + (init.method ? "" : "?ref=" + BRANCH), { ...init, headers: { Accept: "application/vnd.github+json", Authorization: "Bearer " + token(), ...(init.body ? { "Content-Type": "application/json" } : {}) } });
+  if (r.status === 401 || r.status === 403) throw new Error("Token sem permissão (confira se é deste repositório, com Contents: leitura e escrita).");
+  if (!r.ok) throw new Error("GitHub respondeu " + r.status);
+  return r.json();
+}
+async function readFile(path) { const j = await gh(path); return { sha: j.sha, data: JSON.parse(b64dec(j.content)) }; }
+
+// Lê a versão mais recente, aplica a mudança e grava; evita sobrescrever edições feitas em paralelo.
+async function mutate(path, fn, message) {
+  const { sha, data } = await readFile(path);
+  const next = fn(data);
+  await gh(path, { method: "PUT", body: JSON.stringify({ message, branch: BRANCH, sha, content: b64enc(JSON.stringify(next, null, 2) + "\n") }) });
+  return next;
+}
+
+const brt = d => new Intl.DateTimeFormat("sv-SE", { timeZone: TZ, dateStyle: "short", timeStyle: "short", hourCycle: "h23" }).format(d);
+const key = d => { const [day, t] = new Intl.DateTimeFormat("sv-SE", { timeZone: TZ, dateStyle: "short", timeStyle: "short", hourCycle: "h23" }).format(d).split(" "); return [day, +t.slice(0, 2)]; };
+const gte = (day, hour, [d0, h0]) => day > d0 || (day === d0 && hour >= h0);
+
+function sum(slug, since) {
+  const t = { visita: 0, toque: 0, copiado: 0, falha: 0 };
+  for (const [day, hour, s, kind, n] of stats?.rows ?? []) if (s === slug && kind in t && (!since || gte(day, hour, since))) t[kind] += n;
+  return t;
+}
+const cells = t => [t.visita, t.toque, t.copiado, t.falha].map(n => h("td", { class: "n" }, stats ? n : "–"));
+const rate = t => h("td", { class: "n" }, stats && t.visita ? (t.copiado / t.visita * 100).toFixed(0) + "%" : "–");
+
+function render() {
+  $("statsInfo").textContent = stats ? "Estatísticas atualizadas em " + brt(new Date(stats.generated)) + " (BRT), últimos " + stats.days + " dias" : "Sem estatísticas (falta o segredo GOATCOUNTER_TOKEN no repositório ou o primeiro deploy ainda não gerou)";
+  const tb = $("links"); tb.replaceChildren();
+  for (const [slug, l] of Object.entries(links)) {
+    const t = sum(slug);
+    let dest = "–"; try { const u = new URL(l.url); dest = u.pathname + u.search; } catch {}
+    tb.append(h("tr", {}, h("td", {}, h("code", {}, slug)), h("td", {}, h("code", {}, l.coupon)), h("td", { title: l.url || "" }, dest.length > 48 ? dest.slice(0, 47) + "…" : dest), ...cells(t), rate(t),
+      h("td", {}, h("div", { class: "actions" },
+        h("button", { class: "ghost", type: "button", onclick: () => copyLink(slug) }, "Copiar link"),
+        h("button", { class: "ghost", type: "button", onclick: () => openForm(slug) }, "Editar"),
+        h("button", { class: "danger", type: "button", onclick: () => removeLink(slug) }, "Excluir")))));
+  }
+  const sel = $("l-slug"); const cur = sel.value; sel.replaceChildren(...Object.keys(links).map(s => h("option", { value: s }, s))); if (links[cur]) sel.value = cur;
+  const lb = $("launches"); lb.replaceChildren();
+  [...launches].sort((a, b) => b.at.localeCompare(a.at)).forEach(L => {
+    const t = sum(L.slug, key(new Date(L.at)));
+    lb.append(h("tr", {}, h("td", {}, brt(new Date(L.at))), h("td", {}, h("code", {}, L.slug)), h("td", {}, L.note || ""), ...cells(t),
+      h("td", {}, h("button", { class: "danger", type: "button", onclick: () => removeLaunch(L) }, "Remover"))));
+  });
+}
+
+async function copyLink(slug) { try { await navigator.clipboard.writeText(SITE + "/" + slug); say("Link copiado: " + SITE + "/" + slug); } catch { say("Não foi possível copiar.", true); } }
+
+function openForm(slug) {
+  editing = slug; const l = slug ? links[slug] : {};
+  $("formTitle").textContent = slug ? "Editar " + slug : "Novo link";
+  $("f-slug").value = slug || ""; $("f-slug").readOnly = !!slug;
+  for (const k of ["coupon", "url", "title", "discount", "store", "by", "expires", "terms"]) $("f-" + k).value = l[k] || "";
+  if (!slug) { $("f-store").value = "Dafiti"; $("f-by").value = "Pablo Martins"; }
+  $("formCard").hidden = false; $("f-slug").focus();
+}
+
+function readForm() {
+  const slug = $("f-slug").value.trim(), coupon = $("f-coupon").value.trim(), url = $("f-url").value.trim();
+  if (!/^[A-Za-z0-9_-]{3,40}$/.test(slug)) throw new Error("Slug inválido (3–40: letras, números, - _).");
+  if (RESERVED.includes(slug)) throw new Error("Slug reservado.");
+  if (!coupon || coupon.length > 100) throw new Error("Cupom obrigatório (máx. 100 caracteres).");
+  if (url) { let u; try { u = new URL(url); } catch { throw new Error("URL inválida."); } if (!/^https?:$/.test(u.protocol)) throw new Error("A URL deve ser http ou https."); }
+  const o = { coupon }; if (url) o.url = url;
+  for (const k of ["store", "title", "discount", "by", "expires", "terms"]) { const v = $("f-" + k).value.trim(); if (v) o[k] = v; }
+  return [slug, o];
+}
+
+async function busy(label, fn) {
+  document.querySelectorAll("button").forEach(b => b.disabled = true); say(label + "…");
+  try { await fn(); } catch (e) { say(e.message, true); } finally { document.querySelectorAll("button").forEach(b => b.disabled = false); }
+}
+
+$("form").addEventListener("submit", e => { e.preventDefault(); busy("Salvando", async () => {
+  const [slug, obj] = readForm();
+  if (!editing && links[slug]) throw new Error('O slug "' + slug + '" já existe.');
+  links = await mutate("site/links.json", d => { if (!editing && d[slug]) throw new Error('O slug "' + slug + '" já existe.'); d[slug] = obj; return d; }, (editing ? "admin: atualiza " : "admin: adiciona ") + slug);
+  $("formCard").hidden = true; render(); say("Salvo. O site será republicado em ~1 min.");
+}); });
+$("cancel").addEventListener("click", () => { $("formCard").hidden = true; });
+$("newBtn").addEventListener("click", () => openForm(null));
+
+function removeLink(slug) { if (!confirm('Excluir "' + slug + '"? Quem tiver esse link vai ver a página sem cupom.')) return; busy("Excluindo", async () => {
+  links = await mutate("site/links.json", d => { delete d[slug]; return d; }, "admin: remove " + slug); render(); say("Removido. O site será republicado em ~1 min."); }); }
+
+$("launchForm").addEventListener("submit", e => { e.preventDefault(); busy("Registrando", async () => {
+  const L = { slug: $("l-slug").value, at: new Date($("l-at").value + ":00-03:00").toISOString(), note: $("l-note").value.trim().slice(0, 100) };
+  if (!links[L.slug] || isNaN(Date.parse(L.at))) throw new Error("Escolha um link e um horário válidos.");
+  launches = await mutate("site/launches.json", d => [...d, L], "admin: registra lançamento de " + L.slug); $("l-note").value = ""; render(); say("Lançamento registrado."); }); });
+function removeLaunch(L) { busy("Removendo", async () => { launches = await mutate("site/launches.json", d => d.filter(x => !(x.at === L.at && x.slug === L.slug)), "admin: remove lançamento de " + L.slug); render(); }); }
+
+async function loadStats() { try { const r = await fetch("stats.json?t=" + Date.now()); stats = r.ok ? await r.json() : null; } catch { stats = null; } }
+
+async function start() {
+  $("login").hidden = true; $("app").hidden = false;
+  await busy("Carregando", async () => {
+    [links, launches] = (await Promise.all([readFile("site/links.json"), readFile("site/launches.json").catch(() => ({ data: [] })), loadStats()])).slice(0, 2).map(x => x.data);
+    $("l-at").value = brt(new Date()).replace(" ", "T");
+    render(); say("");
+  });
+}
+$("enter").addEventListener("click", () => { const v = $("tok").value.trim(); if (!v) return; try { localStorage.setItem("gh_token", v); } catch {} $("tok").value = ""; start(); });
+$("logout").addEventListener("click", () => { try { localStorage.removeItem("gh_token"); } catch {} location.reload(); });
+if (token()) start();
+</script></body></html>

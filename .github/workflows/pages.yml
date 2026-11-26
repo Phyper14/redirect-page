@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     paths: [site/**, scripts/**, .github/workflows/pages.yml]
+  schedule:
+    - cron: '*/30 * * * *'   # republica com estatísticas novas para o painel /admin
   workflow_dispatch:
     inputs:
       coupon:
@@ -60,6 +62,16 @@ jobs:
           mkdir _site && cp -r site/. _site/
           sed -i "s|__BASE__|${{ steps.pages.outputs.base_path }}|g" _site/index.html
           cp _site/index.html _site/404.html   # o Pages serve o 404.html para /slug
+
+      - name: Estatísticas do GoatCounter
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: |
+          if [ -z "$GOATCOUNTER_TOKEN" ]; then
+            echo "::notice::Segredo GOATCOUNTER_TOKEN ausente: o painel fica sem estatísticas"
+          else
+            node scripts/fetch-stats.mjs _site/stats.json || echo "::warning::Não foi possível buscar as estatísticas"
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:

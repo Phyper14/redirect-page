@@ -22,7 +22,7 @@ const links = JSON.parse(fs.readFileSync(FILE, 'utf8'));
 let slug = SLUG.trim();
 if (!slug) do { slug = crypto.randomBytes(4).toString('base64url').slice(0, 6); } while (links[slug]);
 if (!/^[A-Za-z0-9_-]{3,40}$/.test(slug)) fail('slug inválido (3–40: letras, números, - _)');
-if (['index', 'links', '404'].includes(slug)) fail('slug reservado');
+if (['index', 'links', '404', 'admin', 'stats', 'launches'].includes(slug)) fail('slug reservado');
 if (links[slug]) fail(`o slug "${slug}" já existe`);
 
 links[slug] = url ? { coupon, url } : { coupon };

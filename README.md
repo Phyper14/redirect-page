@@ -24,3 +24,17 @@ Links curtos que abrem uma página de cupom: ao tocar no botão, o cupom é copi
 ## Contagem de acessos
 
 A página usa o GoatCounter (sem cookies): https://pablomartins-dafiti.goatcounter.com/. Cada slug aparece como um caminho (`/dafiti-tiktok-1-feminino`) e o funil de cada link como eventos: `toque/<slug>` (tocou no botão), `copiado/<slug>` (cópia ok) e `falha/<slug>` (cópia falhou). Se o contador for bloqueado pelo navegador, a página funciona normalmente, só não conta.
+
+## Painel de administração (`/admin`)
+
+Página estática que edita `site/links.json` e `site/launches.json` pela API do GitHub e mostra as
+estatísticas do GoatCounter (visitas, toques, cópias, falhas, por link e desde cada lançamento).
+
+1. **Token do GitHub**: fine-grained, só este repositório, permissão `Contents: Read and write`.
+   Cole na tela de entrada; fica só no `localStorage` do navegador.
+2. **Estatísticas**: crie o segredo `GOATCOUNTER_TOKEN` (token de API do GoatCounter, só leitura) em
+   Settings → Secrets and variables → Actions. O workflow republica o site a cada 30 min e inclui
+   `stats.json`, que o painel lê. Sem o segredo, o painel funciona sem números.
+3. Cada salvamento é um commit em `main`; o deploy leva cerca de 1 min.
+
+`stats.json` é público, como o resto do site (contém só contagens por link e hora).
