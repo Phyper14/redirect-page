@@ -23,4 +23,4 @@ Links curtos que abrem uma página de cupom: ao tocar no botão, o cupom é copi
 
 ## Contagem de acessos
 
-A página usa o GoatCounter (sem cookies): https://pablomartins-dafiti.goatcounter.com/. Cada slug aparece como um caminho (`/dafiti-tiktok-1-feminino`) e cada cupom copiado como evento `copiado/<slug>`. Se o contador for bloqueado pelo navegador, a página funciona normalmente, só não conta.
+A página usa o GoatCounter (sem cookies): https://pablomartins-dafiti.goatcounter.com/. Cada slug aparece como um caminho (`/dafiti-tiktok-1-feminino`) e o funil de cada link como eventos: `toque/<slug>` (tocou no botão), `copiado/<slug>` (cópia ok) e `falha/<slug>` (cópia falhou). Se o contador for bloqueado pelo navegador, a página funciona normalmente, só não conta.

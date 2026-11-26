@@ -132,6 +132,8 @@ function safeUrl(u) {
   $("btn").onclick = async () => {
     if (busy) return;
     busy = true;
+    // Funil por link: toque -> copiado (ou falha). Mostra se as pessoas nem tocam ou se a cópia falha.
+    track({ event: true, path: "toque/" + slug, title: "Toque no botão" });
     try {
       await copy(coupon);
       // Evento "cupom copiado" por link; ignorado se o contador estiver bloqueado.
@@ -145,6 +147,7 @@ function safeUrl(u) {
       if (goes) setTimeout(() => location.assign(dest.href), 1200);
     } catch {
       busy = false;
+      track({ event: true, path: "falha/" + slug, title: "Falha ao copiar" });
       $("msg").textContent = "Não foi possível copiar. Toque no cupom acima, copie e depois abra a loja.";
     }
   };
