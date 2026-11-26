@@ -46,8 +46,9 @@ button:focus-visible,.go:focus-visible{outline:3px solid #fff;outline-offset:2px
 <p class="terms" id="terms" hidden></p>
 </main>
 <script>
-// Contagem anônima (GoatCounter, sem cookies). Para o formato ?c=slug conta como /slug.
-window.goatcounter = { path: p => { const c = new URLSearchParams(location.search).get("c"); return c ? "/" + c : p; } };
+// Contagem anônima (GoatCounter, sem cookies). O formato ?c=slug conta como /slug e os demais
+// parâmetros (ex.: ttclid do TikTok) são descartados, senão cada clique vira um caminho diferente.
+window.goatcounter = { path: p => { const c = new URLSearchParams(location.search).get("c"); return c ? "/" + c : p.split("?")[0]; } };
 </script>
 <script data-goatcounter="https://pablomartins-dafiti.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
