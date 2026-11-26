@@ -32,6 +32,17 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 - Slug no formato `loja-plataforma-numero-publico`, com letras, números, `-` ou `_` (3 a 40 caracteres).
 - A atribuição vale só para quem copia pelo botão: quem digita o cupom à mão usa a própria grafia.
 
+## Lançamentos
+
+Horário (Brasília) em que cada anúncio foi publicado, para comparar com os dados do GoatCounter
+(que também mostra horas em Brasília). O horário é o do registro, logo após a publicação, então
+pode ter alguns minutos de diferença.
+
+| Data e hora (BRT) | Plataforma | Slug | Cupom |
+|---|---|---|---|
+| 2026-11-26 13:27 | TikTok | `dafiti-tiktok-1-adizero` | `pablomARTINS` |
+| 2026-11-26 13:27 | TikTok | `dafiti-tiktok-1-adi2000-filtro` | `Pablomartins` |
+
 ## Oferta (Dafiti, Black Absurda)
 
 - Desconto: 10% OFF, válido de 09/11 a 30/11/2026 (`expires` em `site/links.json`).
