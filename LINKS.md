@@ -24,6 +24,7 @@ Base: `https://phyper14.github.io/redirect-page/`. Os destinos são caminhos em 
 | Instagram, Adi2000 (filtro) | `dafiti-instagram-1-adi2000-filtro` | `PABLOMArtins` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adi2000-filtro | `/adidas-originals/?seller=Dafiti&q=adi2000` |
 | TikTok, Adizero Evo SL | `dafiti-tiktok-1-adizero` | `pablomARTINS` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
 | Instagram, Adizero Evo SL | `dafiti-instagram-1-adizero` | `PabloMARTINS` | https://phyper14.github.io/redirect-page/dafiti-instagram-1-adizero | `/Tenis-Masculino-adidas-Performance-Adizero-Evo-SL-Branco-15226853.html` |
+| TikTok, Adidas (marcas) | `dafiti-tiktok-1-adidas` | `PABLOMARTins` | https://phyper14.github.io/redirect-page/dafiti-tiktok-1-adidas | `/adidas--adidas-originals--adidas-performance/?seller=Dafiti` |
 
 ## Regras para novas variantes
 
