@@ -19,7 +19,7 @@ for (let page = 0; page < 50; page++) {
   const q = new URLSearchParams({ start, end, limit: '100' });
   if (seen.length) q.set('exclude_paths', seen.join(','));
   const res = await fetch(`${API}/stats/hits?${q}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
-  if (!res.ok) { console.error(`GoatCounter respondeu ${res.status}`); process.exit(1); }
+  if (!res.ok) { console.error(`GoatCounter respondeu ${res.status}: ${(await res.text()).slice(0, 200)}`); process.exit(1); }
   const j = await res.json();
   if (!j.hits?.length) break;
   hits.push(...j.hits);
